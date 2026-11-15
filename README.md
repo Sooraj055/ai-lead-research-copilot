@@ -10,7 +10,7 @@ Automates researching prospective client websites, extracting core company infor
 ## Current Status
 - [x] **Stage 1: Project Setup and Website Scraping** (Completed & Tested)
 - [x] **Stage 2: Company Information Extraction** (Completed & Tested)
-- [ ] **Stage 3: AI Integration & Business Analysis**
+- [x] **Stage 3: AI Business Analysis — CRM Fit, Pain Points & Triggers** (Completed & Tested)
 - [ ] **Stage 4: Ideal Customer Profile & Lead Scoring**
 - [ ] **Stage 5: Personalized Outreach Generation**
 - [ ] **Stage 6: Human Approval & HubSpot Integration**
@@ -29,18 +29,21 @@ ai-lead-research-copilot/
 ├── README.md              # Project documentation
 ├── .gitignore             # Ignored directories, venv, and secrets (.env)
 ├── .env.example           # Template for environment variables
-├── app.py                 # Interactive command-line pipeline (Scrape + Extract)
+├── app.py                 # Interactive CLI pipeline (Scrape + Extract + Analyze)
 ├── test_scraper.py        # Automated test suite for Stage 1 (Scraper)
 ├── test_extractor.py      # Automated test suite for Stage 2 (Extractor)
+├── test_analyzer.py       # Automated test suite for Stage 3 (Business Analyzer)
 │
-├── research/              # Scraping and research engine module
-│   ├── __init__.py        # Exports scrape_website and extract_company_info
-│   ├── scraper.py         # Requests & BeautifulSoup clean text extractor
-│   └── extractor.py       # AI-powered grounded company profile extractor
+├── research/              # Research and business analysis modules
+│   ├── __init__.py        # Exports scraper, extractor, and analyzer
+│   ├── scraper.py         # Stage 1: Requests & BeautifulSoup clean text extractor
+│   ├── extractor.py       # Stage 2: Grounded company profile extractor (Gemini)
+│   └── analyzer.py        # Stage 3: CRM relevance, pain points & buying triggers (Gemini)
 │
-└── data/                  # Output storage for scraped leads and company profiles
+└── data/                  # Output storage for scraped leads and profiles
     ├── sample_scrape.json
-    └── company_profile.json
+    ├── company_profile.json
+    └── business_analysis.json
 ```
 
 ---
@@ -53,8 +56,8 @@ ai-lead-research-copilot/
 - Google Gemini API key (Free at https://aistudio.google.com)
 
 ### 2. Configure Environment Variables
-Copy `.env.example` to `.env` and paste your Gemini API key:
-```bash
+Copy `.env.example` to `.env` and add your Gemini API key:
+```ini
 GEMINI_API_KEY="AIzaSy..."
 ```
 
@@ -65,9 +68,12 @@ GEMINI_API_KEY="AIzaSy..."
 
 # Test Stage 2 Extractor:
 .\.venv\Scripts\python.exe test_extractor.py
+
+# Test Stage 3 Business Analyzer:
+.\.venv\Scripts\python.exe test_analyzer.py
 ```
 
-### 4. Run the Copilot CLI Pipeline
+### 4. Run Interactive Copilot CLI
 ```powershell
 .\.venv\Scripts\python.exe app.py
 ```
