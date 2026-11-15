@@ -12,7 +12,7 @@ Automates researching prospective client websites, extracting core company infor
 - [x] **Stage 2: Company Information Extraction** (Completed & Tested)
 - [x] **Stage 3: AI Business Analysis — CRM Fit, Pain Points & Triggers** (Completed & Tested)
 - [x] **Stage 4: Ideal Customer Profile & Lead Scoring** (Completed & Tested)
-- [ ] **Stage 5: Personalized Outreach Generation**
+- [x] **Stage 5: Personalised Outreach Generation** (Completed & Tested)
 - [ ] **Stage 6: Human Approval & HubSpot Integration**
 - [ ] **Stage 7: Streamlit Application**
 - [ ] **Stage 8: Evaluation and Testing**
@@ -29,24 +29,27 @@ ai-lead-research-copilot/
 ├── README.md              # Project documentation
 ├── .gitignore             # Ignored directories, venv, and secrets (.env)
 ├── .env.example           # Template for environment variables
-├── app.py                 # Interactive CLI pipeline (Scrape + Extract + Analyze + Score)
+├── app.py                 # Interactive CLI pipeline (Scrape + Extract + Analyze + Score + Outreach)
 ├── test_scraper.py        # Automated test suite for Stage 1 (Scraper)
 ├── test_extractor.py      # Automated test suite for Stage 2 (Extractor)
 ├── test_analyzer.py       # Automated test suite for Stage 3 (Business Analyzer)
 ├── test_scorer.py         # Automated test suite for Stage 4 (Deterministic Lead Scorer)
+├── test_outreach.py       # Automated test suite for Stage 5 (Personalised Outreach Generator)
 │
 ├── research/              # Research and business analysis modules
-│   ├── __init__.py        # Exports scraper, extractor, analyzer, and scorer
+│   ├── __init__.py        # Exports scraper, extractor, analyzer, scorer, outreach
 │   ├── scraper.py         # Stage 1: Requests & BeautifulSoup clean text extractor
 │   ├── extractor.py       # Stage 2: Grounded company profile extractor (Gemini)
 │   ├── analyzer.py        # Stage 3: CRM relevance, pain points & buying triggers (Gemini)
-│   └── scorer.py          # Stage 4: Deterministic 0-100 ICP scoring engine (Pure Python)
+│   ├── scorer.py          # Stage 4: Deterministic 0-100 ICP scoring engine (Pure Python)
+│   └── outreach.py        # Stage 5: Grounded 4-variant sales messaging engine (Gemini)
 │
 └── data/                  # Output storage for scraped leads and profiles
     ├── sample_scrape.json
     ├── company_profile.json
     ├── business_analysis.json
-    └── lead_score.json
+    ├── lead_score.json
+    └── outreach_drafts.json
 ```
 
 ---
@@ -77,6 +80,9 @@ GEMINI_API_KEY="AIzaSy..."
 
 # Test Stage 4 Deterministic Scorer:
 .\.venv\Scripts\python.exe test_scorer.py
+
+# Test Stage 5 Outreach Generator:
+.\.venv\Scripts\python.exe test_outreach.py
 ```
 
 ### 4. Run Interactive Copilot CLI
