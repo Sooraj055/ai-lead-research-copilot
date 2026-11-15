@@ -241,6 +241,7 @@ Analyze this company and return valid JSON adhering strictly to this schema:
 """
 
     try:
+        import time
         from google import genai
         from google.genai import types
 
@@ -252,11 +253,24 @@ Analyze this company and return valid JSON adhering strictly to this schema:
             temperature=0.1,
         )
 
-        response = client.models.generate_content(
-            model=model_name,
-            contents=prompt,
-            config=config,
-        )
+        # Retry with exponential backoff on transient rate limits (429/RESOURCE_EXHAUSTED)
+        response = None
+        max_retries = 3
+        for attempt in range(max_retries):
+            try:
+                response = client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                    config=config,
+                )
+                break
+            except Exception as api_err:
+                err_str = str(api_err)
+                if ("429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "rate" in err_str.lower()) and attempt < max_retries - 1:
+                    wait_time = 7 * (attempt + 1)
+                    time.sleep(wait_time)
+                    continue
+                raise api_err
 
         raw_text = response.text.strip()
         if raw_text.startswith("```"):

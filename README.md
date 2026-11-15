@@ -11,7 +11,7 @@ Automates researching prospective client websites, extracting core company infor
 - [x] **Stage 1: Project Setup and Website Scraping** (Completed & Tested)
 - [x] **Stage 2: Company Information Extraction** (Completed & Tested)
 - [x] **Stage 3: AI Business Analysis — CRM Fit, Pain Points & Triggers** (Completed & Tested)
-- [ ] **Stage 4: Ideal Customer Profile & Lead Scoring**
+- [x] **Stage 4: Ideal Customer Profile & Lead Scoring** (Completed & Tested)
 - [ ] **Stage 5: Personalized Outreach Generation**
 - [ ] **Stage 6: Human Approval & HubSpot Integration**
 - [ ] **Stage 7: Streamlit Application**
@@ -29,21 +29,24 @@ ai-lead-research-copilot/
 ├── README.md              # Project documentation
 ├── .gitignore             # Ignored directories, venv, and secrets (.env)
 ├── .env.example           # Template for environment variables
-├── app.py                 # Interactive CLI pipeline (Scrape + Extract + Analyze)
+├── app.py                 # Interactive CLI pipeline (Scrape + Extract + Analyze + Score)
 ├── test_scraper.py        # Automated test suite for Stage 1 (Scraper)
 ├── test_extractor.py      # Automated test suite for Stage 2 (Extractor)
 ├── test_analyzer.py       # Automated test suite for Stage 3 (Business Analyzer)
+├── test_scorer.py         # Automated test suite for Stage 4 (Deterministic Lead Scorer)
 │
 ├── research/              # Research and business analysis modules
-│   ├── __init__.py        # Exports scraper, extractor, and analyzer
+│   ├── __init__.py        # Exports scraper, extractor, analyzer, and scorer
 │   ├── scraper.py         # Stage 1: Requests & BeautifulSoup clean text extractor
 │   ├── extractor.py       # Stage 2: Grounded company profile extractor (Gemini)
-│   └── analyzer.py        # Stage 3: CRM relevance, pain points & buying triggers (Gemini)
+│   ├── analyzer.py        # Stage 3: CRM relevance, pain points & buying triggers (Gemini)
+│   └── scorer.py          # Stage 4: Deterministic 0-100 ICP scoring engine (Pure Python)
 │
 └── data/                  # Output storage for scraped leads and profiles
     ├── sample_scrape.json
     ├── company_profile.json
-    └── business_analysis.json
+    ├── business_analysis.json
+    └── lead_score.json
 ```
 
 ---
@@ -71,6 +74,9 @@ GEMINI_API_KEY="AIzaSy..."
 
 # Test Stage 3 Business Analyzer:
 .\.venv\Scripts\python.exe test_analyzer.py
+
+# Test Stage 4 Deterministic Scorer:
+.\.venv\Scripts\python.exe test_scorer.py
 ```
 
 ### 4. Run Interactive Copilot CLI
