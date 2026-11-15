@@ -5,3 +5,7 @@ beautifulsoup4>=4.12.0
 # Stage 2: AI-Powered Information Extraction & Environment Variables
 google-genai>=3.3.0
 python-dotenv>=1.2.4
+
+# Stage 7: Streamlit Dashboard & Batch Data Processing
+streamlit>=1.35.0
+pandas>=2.0.0

@@ -14,7 +14,7 @@ Automates researching prospective client websites, extracting core company infor
 - [x] **Stage 4: Ideal Customer Profile & Lead Scoring** (Completed & Tested)
 - [x] **Stage 5: Personalised Outreach Generation** (Completed & Tested)
 - [x] **Stage 6: Human Approval & HubSpot Free CRM Integration** (Completed & Tested)
-- [ ] **Stage 7: Streamlit Application**
+- [x] **Stage 7: Streamlit Application** (Completed & Verified)
 - [ ] **Stage 8: Evaluation and Testing**
 - [ ] **Stage 9: Final Portfolio Deliverables**
 
@@ -25,11 +25,12 @@ Automates researching prospective client websites, extracting core company infor
 ai-lead-research-copilot/
 │
 ├── .venv/                 # Isolated Python 3.11 virtual environment
-├── requirements.txt       # Project dependencies (requests, bs4, google-genai, python-dotenv)
+├── requirements.txt       # Project dependencies (requests, bs4, google-genai, streamlit, pandas)
 ├── README.md              # Project documentation
 ├── .gitignore             # Ignored directories, venv, and secrets (.env)
 ├── .env.example           # Template for environment variables (GEMINI_API_KEY, HUBSPOT_ACCESS_TOKEN)
-├── app.py                 # Interactive CLI pipeline (Scrape + Extract + Analyze + Score + Outreach + CRM Sync)
+├── app.py                 # Interactive CLI pipeline (Stages 1-6)
+├── dashboard.py           # Enterprise Streamlit SaaS Dashboard (Stages 1-7)
 ├── test_scraper.py        # Automated test suite for Stage 1 (Scraper)
 ├── test_extractor.py      # Automated test suite for Stage 2 (Extractor)
 ├── test_analyzer.py       # Automated test suite for Stage 3 (Business Analyzer)
@@ -37,7 +38,7 @@ ai-lead-research-copilot/
 ├── test_outreach.py       # Automated test suite for Stage 5 (Personalised Outreach Generator)
 ├── test_crm_sync.py       # Automated test suite for Stage 6 (Human Approval & CRM Sync)
 │
-├── research/              # Research, scoring, outreach, and CRM sync modules
+├── research/              # Core business logic (Zero duplicate presentation logic)
 │   ├── __init__.py        # Exports scraper, extractor, analyzer, scorer, outreach, crm_sync
 │   ├── scraper.py         # Stage 1: Requests & BeautifulSoup clean text extractor
 │   ├── extractor.py       # Stage 2: Grounded company profile extractor (Gemini)
@@ -47,6 +48,7 @@ ai-lead-research-copilot/
 │   └── crm_sync.py        # Stage 6: Human approval gate & HubSpot Free CRM v3 integration
 │
 └── data/                  # Output storage for scraped leads and profiles
+    ├── sample_target_companies.csv
     ├── sample_scrape.json
     ├── company_profile.json
     ├── business_analysis.json
@@ -93,7 +95,13 @@ HUBSPOT_ACCESS_TOKEN="pat-na1-..."  # Optional
 .\.venv\Scripts\python.exe test_crm_sync.py
 ```
 
-### 4. Run Interactive Copilot CLI
+### 4. Launch the Streamlit Web Application (Stage 7)
+```powershell
+cd c:\Users\PC\Downloads\pros\ai-lead-research-copilot
+.\.venv\Scripts\python.exe -m streamlit run dashboard.py
+```
+
+### 5. Run Interactive Copilot CLI
 ```powershell
 .\.venv\Scripts\python.exe app.py
 ```
