@@ -7,16 +7,16 @@ Automates researching prospective client websites, extracting core company infor
 
 ---
 
-## Current Status: Stage 1 Completed
-- **Stage 1: Project Setup and Website Scraping** (Active & Tested)
-- Stage 2: Company Information Extraction
-- Stage 3: AI Integration & Business Analysis
-- Stage 4: Ideal Customer Profile & Lead Scoring
-- Stage 5: Personalized Outreach Generation
-- Stage 6: Human Approval & HubSpot Integration
-- Stage 7: Streamlit Application
-- Stage 8: Evaluation and Testing
-- Stage 9: Final Portfolio Deliverables
+## Current Status
+- [x] **Stage 1: Project Setup and Website Scraping** (Completed & Tested)
+- [x] **Stage 2: Company Information Extraction** (Completed & Tested)
+- [ ] **Stage 3: AI Integration & Business Analysis**
+- [ ] **Stage 4: Ideal Customer Profile & Lead Scoring**
+- [ ] **Stage 5: Personalized Outreach Generation**
+- [ ] **Stage 6: Human Approval & HubSpot Integration**
+- [ ] **Stage 7: Streamlit Application**
+- [ ] **Stage 8: Evaluation and Testing**
+- [ ] **Stage 9: Final Portfolio Deliverables**
 
 ---
 
@@ -25,17 +25,22 @@ Automates researching prospective client websites, extracting core company infor
 ai-lead-research-copilot/
 │
 ├── .venv/                 # Isolated Python 3.11 virtual environment
-├── requirements.txt       # Project dependencies
+├── requirements.txt       # Project dependencies (requests, bs4, google-genai, python-dotenv)
 ├── README.md              # Project documentation
-├── .gitignore             # Ignored directories, venv, and secrets
-├── app.py                 # Interactive entry point
-├── test_scraper.py        # Automated test suite for website scraper
+├── .gitignore             # Ignored directories, venv, and secrets (.env)
+├── .env.example           # Template for environment variables
+├── app.py                 # Interactive command-line pipeline (Scrape + Extract)
+├── test_scraper.py        # Automated test suite for Stage 1 (Scraper)
+├── test_extractor.py      # Automated test suite for Stage 2 (Extractor)
 │
 ├── research/              # Scraping and research engine module
-│   ├── __init__.py
-│   └── scraper.py         # Requests & BeautifulSoup clean text extractor
+│   ├── __init__.py        # Exports scrape_website and extract_company_info
+│   ├── scraper.py         # Requests & BeautifulSoup clean text extractor
+│   └── extractor.py       # AI-powered grounded company profile extractor
 │
-└── data/                  # Output storage for scraped leads
+└── data/                  # Output storage for scraped leads and company profiles
+    ├── sample_scrape.json
+    └── company_profile.json
 ```
 
 ---
@@ -45,19 +50,24 @@ ai-lead-research-copilot/
 ### 1. Prerequisites
 - Python 3.11+
 - Git
+- Google Gemini API key (Free at https://aistudio.google.com)
 
-### 2. Activate Virtual Environment (Windows PowerShell)
-```powershell
-cd ai-lead-research-copilot
-.\.venv\Scripts\Activate.ps1
+### 2. Configure Environment Variables
+Copy `.env.example` to `.env` and paste your Gemini API key:
+```bash
+GEMINI_API_KEY="AIzaSy..."
 ```
 
-### 3. Run Automated Scraper Tests
+### 3. Run Automated Tests
 ```powershell
-python test_scraper.py
+# Test Stage 1 Scraper:
+.\.venv\Scripts\python.exe test_scraper.py
+
+# Test Stage 2 Extractor:
+.\.venv\Scripts\python.exe test_extractor.py
 ```
 
-### 4. Run Interactive Scraper App
+### 4. Run the Copilot CLI Pipeline
 ```powershell
-python app.py
+.\.venv\Scripts\python.exe app.py
 ```
