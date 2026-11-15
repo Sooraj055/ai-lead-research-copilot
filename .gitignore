@@ -1,0 +1,22 @@
+# Python virtual environment
+.venv/
+venv/
+env/
+
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment variables & secrets (API keys)
+.env
+*.env
+
+# Local data & logs
+data/*.json
+data/*.csv
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
