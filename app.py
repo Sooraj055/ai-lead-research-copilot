@@ -1,17 +1,15 @@
 """
 app.py
 ======
-Main entry point for AI Lead-Research and Outreach Copilot.
+Main CLI entry point for AI Lead-Research and Outreach Copilot.
 
-Stage 6 Milestone:
-Full end-to-end CLI pipeline with Human-in-the-Loop review and CRM Sync:
+End-to-end sales intelligence pipeline:
 - Stage 1: Website Scraping
 - Stage 2: Company Information Extraction
 - Stage 3: AI Business Analysis (SalesFlow CRM Fit, Pain Points, Buying Triggers)
 - Stage 4: Deterministic Lead Scoring & Priority Classification
 - Stage 5: Personalised Outreach Drafting (Human Review Pending)
 - Stage 6: Human Approval Gate & HubSpot CRM Sync (with Dry-Run Fallback)
-(Streamlit UI will be connected in Stage 7 as planned in the roadmap).
 """
 
 import sys
@@ -33,7 +31,7 @@ def run_cli_copilot():
     while True:
         url_input = input("\nEnter company website URL (or 'q' to quit): ").strip()
         if not url_input or url_input.lower() == "q":
-            print("\nExiting Copilot. See you in Phase 7!")
+            print("\nExiting Copilot.")
             break
             
         # STAGE 1: SCRAPING

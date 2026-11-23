@@ -1,7 +1,7 @@
 """
 test_analyzer.py
 ================
-Automated test suite for Phase 3: AI Business Analysis.
+Automated test suite for Stage 3: AI Business Analysis.
 
 Tests:
 1. Defensive handling of failed or empty input profiles.
@@ -162,12 +162,12 @@ def test_indian_b2b_distributor():
     out_file = Path("data") / "business_analysis.json"
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(analysis, f, indent=2, ensure_ascii=False)
-    print(f"\n✓ Saved Phase 3 business analysis to: {out_file}")
+    print(f"\n✓ Saved Stage 3 business analysis to: {out_file}")
 
 
 def main():
     import time
-    print("=== Running Phase 3 Business Analysis Test Suite ===")
+    print("=== Running Stage 3 Business Analysis Test Suite ===")
     test_defensive_failures()
     print("\nPausing 3 seconds to respect Gemini rate limits...")
     time.sleep(3)
@@ -175,7 +175,7 @@ def main():
     print("\nPausing 3 seconds to respect Gemini rate limits...")
     time.sleep(3)
     test_indian_b2b_distributor()
-    print("\nAll Phase 3 Business Analysis tests completed successfully!")
+    print("\nAll Stage 3 Business Analysis tests completed successfully!")
 
 
 if __name__ == "__main__":

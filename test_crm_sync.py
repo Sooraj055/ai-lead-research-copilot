@@ -1,7 +1,7 @@
 """
 test_crm_sync.py
 ================
-Automated test suite for Phase 6: Human Approval & HubSpot Free CRM Integration.
+Automated test suite for Stage 6: Human Approval & HubSpot Free CRM Integration.
 
 Tests:
 1. Mandatory Human Approval Gate:
@@ -159,7 +159,7 @@ def test_approving_and_syncing_apex_agro():
     out_file = Path("data") / "crm_sync_log.json"
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(sync_result, f, indent=2, ensure_ascii=False)
-    print(f"\n✓ Saved Phase 6 CRM sync log to: {out_file}")
+    print(f"\n✓ Saved Stage 6 CRM sync log to: {out_file}")
 
 
 def test_editing_and_syncing():
@@ -202,12 +202,12 @@ def test_editing_and_syncing():
 
 
 def main():
-    print("=== Running Phase 6 Human Approval & CRM Sync Test Suite ===")
+    print("=== Running Stage 6 Human Approval & CRM Sync Test Suite ===")
     test_blocking_unapproved()
     test_blocking_rejected()
     test_approving_and_syncing_apex_agro()
     test_editing_and_syncing()
-    print("\nAll Phase 6 Human Approval & CRM Sync tests completed successfully!")
+    print("\nAll Stage 6 Human Approval & CRM Sync tests completed successfully!")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 """
 test_scorer.py
 ==============
-Automated test suite for Phase 4: Deterministic ICP Lead Scoring.
+Automated test suite for Stage 4: Deterministic ICP Lead Scoring.
 
 Tests:
 1. Enterprise non-fit case (Stripe) -> Verifies 'Low priority' classification.
@@ -88,7 +88,7 @@ def test_apex_agro_scoring():
     out_file = Path("data") / "lead_score.json"
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(score_result, f, indent=2, ensure_ascii=False)
-    print(f"\n✓ Saved Phase 4 lead score to: {out_file}")
+    print(f"\n✓ Saved Stage 4 lead score to: {out_file}")
 
 
 def test_insufficient_evidence_scoring():
@@ -130,11 +130,11 @@ def test_insufficient_evidence_scoring():
 
 
 def main():
-    print("=== Running Phase 4 Lead Scoring Test Suite ===")
+    print("=== Running Stage 4 Lead Scoring Test Suite ===")
     test_stripe_scoring()
     test_apex_agro_scoring()
     test_insufficient_evidence_scoring()
-    print("\nAll Phase 4 Lead Scoring tests completed successfully!")
+    print("\nAll Stage 4 Lead Scoring tests completed successfully!")
 
 
 if __name__ == "__main__":

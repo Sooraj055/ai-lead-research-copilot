@@ -53,7 +53,7 @@ def get_empty_business_analysis(
     notes: Optional[str] = None,
 ) -> Dict[str, Any]:
     """
-    Returns a standardized default dictionary matching the Phase 3 JSON schema.
+    Returns a standardized default dictionary matching the Stage 3 JSON schema.
     Used for failed analyses, missing data, or fallback responses.
     """
     return {
@@ -143,7 +143,7 @@ def analyze_company_crm_fit(
         model_name (str): Model identifier. Defaults to 'gemini-3.5-flash-lite'.
 
     Returns:
-        dict: Validated business analysis matching the approved Phase 3 JSON schema.
+        dict: Validated business analysis matching the approved Stage 3 JSON schema.
     """
     company_name = company_profile.get("company_name") or "Unknown Company"
     url = company_profile.get("website_url", "")

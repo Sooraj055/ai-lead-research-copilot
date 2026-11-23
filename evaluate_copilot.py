@@ -1,7 +1,7 @@
 """
 evaluate_copilot.py
 ===================
-Phase 8 empirical benchmark for the AI Lead-Research and Outreach Copilot.
+Empirical benchmark harness for the AI Lead-Research and Outreach Copilot.
 
 Evaluates a mixed lead set (Indian distributors, food processors, manufacturers,
 B2B SaaS, enterprise non-fits, and intentional failure controls).

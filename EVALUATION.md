@@ -1,4 +1,4 @@
-# Stage 8 — Evaluation and Testing Report
+# Empirical Evaluation & Benchmark Report
 
 **Copilot:** AI Lead-Research and Outreach Copilot (SalesFlow CRM)  
 **Benchmark timestamp (UTC):** 2026-11-23T12:37:49.907285+00:00  
@@ -6,7 +6,7 @@
 
 ## 1. Evaluation design
 
-The Stage 8 harness (`evaluate_copilot.py`) runs Stages 1–5 on a mixed set of:
+The evaluation benchmark harness (`evaluate_copilot.py`) runs the research, scoring, and outreach pipeline on a mixed set of:
 
 - Indian FMCG / food-processing / manufacturing distributors (ICP-aligned candidates)
 - Indian-origin B2B SaaS companies (adjacent ICP)

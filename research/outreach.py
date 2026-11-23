@@ -189,7 +189,7 @@ def generate_outreach_drafts(
             lead_priority=priority,
             lead_score=score,
             status="failed",
-            notes="Outreach generation aborted because Phase 3 business analysis failed.",
+            notes="Outreach generation aborted because Stage 3 business analysis failed.",
         )
 
     # Safeguard 3: Resolve API Key

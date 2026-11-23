@@ -2,14 +2,14 @@
 dashboard.py
 ============
 Interactive Web Application for the AI Lead-Research and Outreach Copilot.
-Built with Streamlit and Pandas. Stage 8 benchmark results appear in View 4.
+Built with Streamlit and Pandas. Empirical benchmark analytics appear in View 4.
 
 Features:
 - View 1: Single Lead Deep Dive (Live Research Pipeline, Grounded Analysis, Score Card,
           and Interactive Human Approval Gate with CRM Sync). Includes Instant Demo Loader.
 - View 2: Batch CSV Lead Evaluation (Resilient multi-company evaluation, priority filters, CSV export).
 - View 3: CRM Sync Audit Log (Permanent audit trail of human review decisions and CRM syncs).
-- View 4: Stage 8 Benchmark Report (loads evaluation_summary.json / evaluation_results.csv).
+- View 4: Evaluation Benchmark Analytics (loads evaluation_summary.json / evaluation_results.csv).
 
 Architecture:
 - Pure presentation layer: Imports all core logic directly from 'research' package.
@@ -206,7 +206,7 @@ with st.sidebar:
             "🔍 Single Lead Deep Dive",
             "📁 Batch CSV Lead Evaluation",
             "📊 CRM Sync Audit Log",
-            "🧪 Stage 8 Benchmark",
+            "📈 Evaluation Benchmark",
         ],
         index=0,
     )
@@ -733,10 +733,10 @@ elif view_choice == "📊 CRM Sync Audit Log":
 
 
 # ==============================================================================
-# VIEW 4: STAGE 8 BENCHMARK RESULTS
+# VIEW 4: EVALUATION BENCHMARK RESULTS
 # ==============================================================================
-elif view_choice == "🧪 Stage 8 Benchmark":
-    st.markdown('<div class="main-header">Stage 8 Evaluation Benchmark</div>', unsafe_allow_html=True)
+elif view_choice == "📈 Evaluation Benchmark":
+    st.markdown('<div class="main-header">Evaluation Benchmark & Analytics</div>', unsafe_allow_html=True)
     st.markdown(
         '<div class="sub-header">Wall-clock time, scrape failures, ICP score mix, and human-review grades from evaluate_copilot.py.</div>',
         unsafe_allow_html=True,

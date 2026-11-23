@@ -1,7 +1,7 @@
 """
 test_outreach.py
 ================
-Automated test suite for Phase 5: Personalised Outreach Generation.
+Automated test suite for Stage 5: Personalised Outreach Generation.
 
 Tests:
 1. Low-Priority Token Safeguard:
@@ -155,14 +155,14 @@ def test_apex_agro_outreach():
     out_file = Path("data") / "outreach_drafts.json"
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(result, f, indent=2, ensure_ascii=False)
-    print(f"\n✓ Saved Phase 5 outreach drafts to: {out_file}")
+    print(f"\n✓ Saved Stage 5 outreach drafts to: {out_file}")
 
 
 def main():
-    print("=== Running Phase 5 Outreach Generation Test Suite ===")
+    print("=== Running Stage 5 Outreach Generation Test Suite ===")
     test_stripe_skipped()
     test_apex_agro_outreach()
-    print("\nAll Phase 5 Outreach Generation tests completed successfully!")
+    print("\nAll Stage 5 Outreach Generation tests completed successfully!")
 
 
 if __name__ == "__main__":

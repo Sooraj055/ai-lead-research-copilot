@@ -1,7 +1,7 @@
 """
 evaluation.py
 =============
-Phase 8 evaluation helpers: scrape-failure taxonomy, summary aggregation,
+Evaluation and benchmarking helpers: scrape-failure taxonomy, summary aggregation,
 control-case human review protocol, and markdown report generation.
 """
 
@@ -245,7 +245,7 @@ def render_evaluation_markdown(summary: Dict[str, Any], results_df: pd.DataFrame
 
     table = "\n".join(rows_md) if rows_md else "| (no rows) |"
 
-    return f"""# Stage 8 — Evaluation and Testing Report
+    return f"""# Empirical Evaluation & Benchmark Report
 
 **Copilot:** AI Lead-Research and Outreach Copilot (SalesFlow CRM)  
 **Benchmark timestamp (UTC):** {ts}  
@@ -253,7 +253,7 @@ def render_evaluation_markdown(summary: Dict[str, Any], results_df: pd.DataFrame
 
 ## 1. Evaluation design
 
-The Stage 8 harness (`evaluate_copilot.py`) runs Stages 1–5 on a mixed set of:
+The evaluation benchmark harness (`evaluate_copilot.py`) runs the research, scoring, and outreach pipeline on a mixed set of:
 
 - Indian FMCG / food-processing / manufacturing distributors (ICP-aligned candidates)
 - Indian-origin B2B SaaS companies (adjacent ICP)

@@ -1,7 +1,7 @@
 """
 test_evaluate.py
 ================
-Automated tests for Stage 8 evaluation helpers (no live network, no Gemini calls).
+Automated test suite for evaluation helpers (no live network, no Gemini calls).
 """
 
 from research.evaluation import (
@@ -121,11 +121,11 @@ def test_summary_math():
 
 
 def main():
-    print("=== Running Stage 8 Evaluation Helper Test Suite ===")
+    print("=== Running Evaluation Helper Test Suite ===")
     test_failure_taxonomy()
     test_control_reviews()
     test_summary_math()
-    print("\nAll Stage 8 evaluation helper tests completed successfully!")
+    print("\nAll Evaluation helper tests completed successfully!")
 
 
 if __name__ == "__main__":

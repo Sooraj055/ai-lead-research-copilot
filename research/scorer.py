@@ -8,7 +8,7 @@ a company's suitability against the 'SalesFlow CRM' Ideal Customer Profile (ICP)
 
 Design Philosophy:
 - Pure Python deterministic math: Zero LLM calls, zero token costs, and 100% auditability.
-- Avoids arbitrary LLM scoring: The LLM extracts signals in Phase 3; the scorer computes
+- Avoids arbitrary LLM scoring: The LLM extracts signals in Stage 3; the scorer computes
   the score deterministically using weighted criteria.
 - Flags 'Insufficient evidence' when key ICP signals are unknown to prevent false positives.
 """
@@ -112,7 +112,7 @@ def score_lead(business_analysis: Dict[str, Any]) -> Dict[str, Any]:
     Computes a transparent, deterministic 0-100 ICP fit score for a lead.
 
     Args:
-        business_analysis (dict): Structured output from Phase 3 analyze_company_crm_fit().
+        business_analysis (dict): Structured output from Stage 3 analyze_company_crm_fit().
 
     Returns:
         dict: Structured lead score object with total score, individual criteria breakdown,
@@ -241,5 +241,5 @@ def score_lead(business_analysis: Dict[str, Any]) -> Dict[str, Any]:
         },
         "summary_recommendation": rec,
         "score_status": "success",
-        "scoring_notes": f"Deterministic score calculated based on Phase 3 business analysis signals. Unknown signals: {len(unknown_signals)}.",
+        "scoring_notes": f"Deterministic score calculated based on Stage 3 business analysis signals. Unknown signals: {len(unknown_signals)}.",
     }
