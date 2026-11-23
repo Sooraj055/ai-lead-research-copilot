@@ -23,8 +23,15 @@ DEFAULT_HEADERS = {
         "AppleWebKit/537.36 (KHTML, like Gecko) "
         "Chrome/124.0.0.0 Safari/537.36"
     ),
-    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-    "Accept-Language": "en-US,en;q=0.5",
+    "Accept": (
+        "text/html,application/xhtml+xml,application/xml;q=0.9,"
+        "image/avif,image/webp,image/apng,*/*;q=0.8"
+    ),
+    "Accept-Language": "en-US,en;q=0.9",
+    "Accept-Encoding": "gzip, deflate",
+    "Cache-Control": "no-cache",
+    "Pragma": "no-cache",
+    "Upgrade-Insecure-Requests": "1",
 }
 
 # Unnecessary HTML tags that add noise without contributing to company business content
@@ -57,6 +64,18 @@ def normalize_url(raw_url: str) -> str:
         cleaned_url = "https://" + cleaned_url
         
     return cleaned_url
+
+
+def _alternate_host_url(url: str) -> Optional[str]:
+    """Flip www / non-www host to recover from some SSL hostname mismatches."""
+    parsed = urlparse(url)
+    host = parsed.netloc
+    if not host:
+        return None
+    alt_host = host[4:] if host.startswith("www.") else "www." + host
+    if alt_host == host:
+        return None
+    return parsed._replace(netloc=alt_host).geturl()
 
 
 def scrape_website(
@@ -100,13 +119,26 @@ def scrape_website(
     }
 
     try:
-        # Step 1: Send the HTTP GET request
-        response = requests.get(
-            target_url,
-            headers=req_headers,
-            timeout=timeout,
-            allow_redirects=True,
-        )
+        # Step 1: Send the HTTP GET request (retry flipped www host on SSL mismatch)
+        try:
+            response = requests.get(
+                target_url,
+                headers=req_headers,
+                timeout=timeout,
+                allow_redirects=True,
+            )
+        except requests.exceptions.SSLError:
+            alt_url = _alternate_host_url(target_url)
+            if not alt_url:
+                raise
+            response = requests.get(
+                alt_url,
+                headers=req_headers,
+                timeout=timeout,
+                allow_redirects=True,
+            )
+            target_url = alt_url
+            result["url"] = target_url
         result["http_status"] = response.status_code
 
         # Step 2: Handle HTTP errors (e.g., 403 Forbidden, 404 Not Found, 500 Server Error)

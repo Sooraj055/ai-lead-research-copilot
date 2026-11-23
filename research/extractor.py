@@ -82,7 +82,7 @@ def _heuristic_fallback_extraction(scraped_data: Dict[str, Any], notes: str) -> 
 def extract_company_info(
     scraped_data: Dict[str, Any],
     api_key: Optional[str] = None,
-    model_name: str = "gemini-3.8-flash",
+    model_name: str = "gemini-3.5-flash-lite",
 ) -> Dict[str, Any]:
     """
     Converts raw scraped website text into a structured, validated company profile.
@@ -181,23 +181,34 @@ Extract the company profile adhering strictly to this JSON format:
             temperature=0.1,  # Low temperature to minimize creativity/hallucinations
         )
 
+        models_to_try = [model_name]
+        for fallback_m in ["gemini-3.8-flash", "gemini-3.5-flash"]:
+            if fallback_m not in models_to_try:
+                models_to_try.append(fallback_m)
+
         response = None
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                response = client.models.generate_content(
-                    model=model_name,
-                    contents=prompt,
-                    config=config,
-                )
+        last_err = None
+        for current_model in models_to_try:
+            for attempt in range(2):
+                try:
+                    response = client.models.generate_content(
+                        model=current_model,
+                        contents=prompt,
+                        config=config,
+                    )
+                    break
+                except Exception as api_err:
+                    last_err = api_err
+                    err_str = str(api_err)
+                    if ("429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "503" in err_str or "rate" in err_str.lower()) and attempt < 1:
+                        time.sleep(2)
+                        continue
+                    break
+            if response is not None:
                 break
-            except Exception as api_err:
-                err_str = str(api_err)
-                if ("429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "rate" in err_str.lower()) and attempt < max_retries - 1:
-                    wait_time = 7 * (attempt + 1)
-                    time.sleep(wait_time)
-                    continue
-                raise api_err
+
+        if response is None:
+            raise last_err or RuntimeError("All model attempts failed")
 
         raw_response_text = response.text.strip()
         # Clean any accidental code block formatting if present
@@ -228,5 +239,6 @@ Extract the company profile adhering strictly to this JSON format:
             scraped_data,
             notes=f"Gemini API call failed ({type(exc).__name__}: {str(exc)}). Heuristic profile returned.",
         )
-        fallback["extraction_status"] = "failed"
+        # Keep partial so Stages 3-5 can still score and draft from public metadata.
+        fallback["extraction_status"] = "partial"
         return fallback

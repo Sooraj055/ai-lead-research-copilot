@@ -1,0 +1,23 @@
+company_name,website_url,expected_category,test_notes
+Synthite Industries,https://www.synthite.com,Indian B2B Agro/Spice Exporter,Headquartered in Kochi Kerala; global leader in spice oleoresins
+Haldiram Snacks,https://www.haldirams.com,Indian FMCG Food Manufacturer,Major Indian packaged food & snacks distributor
+Bikaji Foods,https://www.bikaji.com,Indian FMCG Food Distributor,Publicly listed Indian snack food & sweets manufacturer
+Everest Spices,https://www.everestspices.com,Indian FMCG Wholesale Distributor,Prominent Indian spice manufacturer with massive dealer network
+MDH Spices,https://www.mdhspices.com,Indian FMCG Wholesale Distributor,Long-established Indian spice brand with multi-state distributor network
+Parle Products,https://www.parleproducts.com,Indian FMCG Food Manufacturer,Large-scale Indian biscuit and confectionery distribution network
+LT Foods (Daawat),https://www.ltgroup.in,Indian Food Processing & Distribution,Global consumer food company with Daawat brand distribution
+V-Guard Industries,https://www.vguard.in,Indian Electrical Manufacturer,Major electrical goods manufacturer with extensive distributor channels
+Havells India,https://www.havells.com,Indian Electrical Manufacturer,Large-scale electrical equipment enterprise with dealer network
+Tata Consumer Products,https://www.tataconsumer.com,Indian FMCG Enterprise,Major FMCG enterprise managing tea and packaged food brands
+Postman,https://www.postman.com,B2B Developer SaaS,API development platform originally founded in Bengaluru India
+BrowserStack,https://www.browserstack.com,B2B Cloud Software SaaS,Developer cloud testing platform of Indian origin
+CleverTap,https://www.clevertap.com,B2B Customer Engagement SaaS,Retention cloud platform founded in Mumbai India
+Khatabook,https://www.khatabook.com,Indian Merchant Utility SaaS,Digital ledger and billing software for Indian SMB merchants
+Zoho Corporation,https://www.zoho.com,B2B Software Enterprise,Global SaaS giant headquartered in Chennai India (Competitor/Enterprise)
+Stripe,https://stripe.com,Global Enterprise Non-Fit,Multi-trillion dollar payment infrastructure enterprise
+Salesforce,https://www.salesforce.com,Global Enterprise Non-Fit,Enterprise CRM giant (Disqualified Non-Fit)
+Shopify,https://shopify.com,Global Enterprise Non-Fit,Global e-commerce software platform enterprise
+Microsoft,https://www.microsoft.com,Global Enterprise Non-Fit,Hyper-scale enterprise technology provider
+Example Domain,https://example.com,Sparse Content Baseline,Minimal single-paragraph domain documentation page
+Non-Existent Domain,https://this-is-a-fake-domain-123xyz456.com,Intentional Failure Test,Intentional DNS resolution failure test
+HTTP 404 Endpoint,https://httpbin.org/status/404,Intentional Failure Test,Intentional HTTP 404 status error test

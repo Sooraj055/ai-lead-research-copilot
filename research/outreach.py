@@ -146,7 +146,7 @@ def generate_outreach_drafts(
     business_analysis: Dict[str, Any],
     lead_score: Dict[str, Any],
     api_key: Optional[str] = None,
-    model_name: str = "gemini-3.8-flash",
+    model_name: str = "gemini-3.5-flash-lite",
 ) -> Dict[str, Any]:
     """
     Generates four personalized, human-in-the-loop outreach drafts grounded in company research.
@@ -156,7 +156,7 @@ def generate_outreach_drafts(
         business_analysis (dict): Output from Stage 3 analyze_company_crm_fit().
         lead_score (dict): Output from Stage 4 score_lead().
         api_key (str, optional): Gemini API key. Defaults to GEMINI_API_KEY env var.
-        model_name (str): Model identifier. Defaults to 'gemini-3.8-flash'.
+        model_name (str): Model identifier. Defaults to 'gemini-3.5-flash-lite'.
 
     Returns:
         dict: Complete outreach drafts object with approval status initialized to 'pending_human_review'.
@@ -285,23 +285,34 @@ Generate four personalized outreach drafts for SalesFlow CRM adhering strictly t
             temperature=0.2,
         )
 
+        models_to_try = [model_name]
+        for fallback_m in ["gemini-3.8-flash", "gemini-3.5-flash"]:
+            if fallback_m not in models_to_try:
+                models_to_try.append(fallback_m)
+
         response = None
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                response = client.models.generate_content(
-                    model=model_name,
-                    contents=prompt,
-                    config=config,
-                )
+        last_err = None
+        for current_model in models_to_try:
+            for attempt in range(2):
+                try:
+                    response = client.models.generate_content(
+                        model=current_model,
+                        contents=prompt,
+                        config=config,
+                    )
+                    break
+                except Exception as api_err:
+                    last_err = api_err
+                    err_str = str(api_err)
+                    if ("429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "503" in err_str or "rate" in err_str.lower()) and attempt < 1:
+                        time.sleep(2)
+                        continue
+                    break
+            if response is not None:
                 break
-            except Exception as api_err:
-                err_str = str(api_err)
-                if ("429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "rate" in err_str.lower()) and attempt < max_retries - 1:
-                    wait_time = 7 * (attempt + 1)
-                    time.sleep(wait_time)
-                    continue
-                raise api_err
+
+        if response is None:
+            raise last_err or RuntimeError("All model attempts failed")
 
         raw_text = response.text.strip()
         if raw_text.startswith("```"):
@@ -380,5 +391,6 @@ Generate four personalized outreach drafts for SalesFlow CRM adhering strictly t
             lead_score,
             notes=f"Gemini API outreach generation failed ({type(exc).__name__}: {str(exc)}). Heuristic drafts returned.",
         )
-        fallback["generation_status"] = "failed"
+        # Keep partial so humans can still review template drafts when Gemini is rate-limited.
+        fallback["generation_status"] = "partial"
         return fallback

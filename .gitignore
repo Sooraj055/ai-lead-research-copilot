@@ -15,6 +15,10 @@ __pycache__/
 # Local data & logs
 data/*.json
 data/*.csv
+!data/evaluation_leads.csv
+!data/evaluation_results.csv
+!data/evaluation_summary.json
+!data/sample_target_companies.csv
 *.log
 
 # OS generated files

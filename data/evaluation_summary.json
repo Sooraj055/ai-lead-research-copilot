@@ -1,0 +1,33 @@
+{
+  "total_companies_evaluated": 22,
+  "successful_scrapes": 15,
+  "scraping_success_rate_percent": 68.2,
+  "scraping_failure_breakdown": {
+    "dns_failures": 1,
+    "http_errors": 3,
+    "ssl_errors": 1,
+    "insufficient_content": 1,
+    "timeouts": 1,
+    "other_errors": 0
+  },
+  "score_distribution": {
+    "high_priority_count": 1,
+    "medium_priority_count": 8,
+    "low_priority_count": 7,
+    "unscored_due_to_error": 6
+  },
+  "insufficient_evidence_flags": 2,
+  "token_saving_low_priority_skips": 6,
+  "outreach_partial_fallback_count": 0,
+  "outreach_success_count": 10,
+  "enterprise_high_priority_false_positives": 0,
+  "intentional_failure_controls_caught": 2,
+  "performance_benchmarks": {
+    "assumed_manual_average_minutes_per_lead": 15.0,
+    "copilot_average_seconds_per_lead": 6.63,
+    "copilot_average_minutes_per_lead": 0.11,
+    "average_time_saved_per_lead_minutes": 14.89,
+    "average_time_reduction_percentage": 99.3
+  },
+  "benchmark_timestamp": "2026-11-23T12:37:49.907285+00:00"
+}

@@ -2,13 +2,14 @@
 dashboard.py
 ============
 Interactive Web Application for the AI Lead-Research and Outreach Copilot.
-Built with Streamlit and Pandas.
+Built with Streamlit and Pandas. Stage 8 benchmark results appear in View 4.
 
 Features:
 - View 1: Single Lead Deep Dive (Live Research Pipeline, Grounded Analysis, Score Card,
           and Interactive Human Approval Gate with CRM Sync). Includes Instant Demo Loader.
 - View 2: Batch CSV Lead Evaluation (Resilient multi-company evaluation, priority filters, CSV export).
 - View 3: CRM Sync Audit Log (Permanent audit trail of human review decisions and CRM syncs).
+- View 4: Stage 8 Benchmark Report (loads evaluation_summary.json / evaluation_results.csv).
 
 Architecture:
 - Pure presentation layer: Imports all core logic directly from 'research' package.
@@ -205,6 +206,7 @@ with st.sidebar:
             "🔍 Single Lead Deep Dive",
             "📁 Batch CSV Lead Evaluation",
             "📊 CRM Sync Audit Log",
+            "🧪 Stage 8 Benchmark",
         ],
         index=0,
     )
@@ -214,7 +216,7 @@ with st.sidebar:
 
     gemini_key = os.environ.get("GEMINI_API_KEY")
     if gemini_key and not gemini_key.startswith("your_"):
-        st.markdown("🟢 **Gemini AI:** `Connected (gemini-3.8-flash)`")
+        st.markdown("🟢 **Gemini AI:** `Connected (gemini-3.5-flash-lite)`")
     else:
         st.markdown("🟡 **Gemini AI:** `Unset (Fallback Heuristics Active)`")
 
@@ -728,3 +730,44 @@ elif view_choice == "📊 CRM Sync Audit Log":
         for idx, l in enumerate(logs):
             with st.expander(f"{idx + 1}. {l.get('company_name')} ({l.get('sync_id')}) - Status: {l.get('sync_status', '').upper()}"):
                 st.json(l)
+
+
+# ==============================================================================
+# VIEW 4: STAGE 8 BENCHMARK RESULTS
+# ==============================================================================
+elif view_choice == "🧪 Stage 8 Benchmark":
+    st.markdown('<div class="main-header">Stage 8 Evaluation Benchmark</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="sub-header">Wall-clock time, scrape failures, ICP score mix, and human-review grades from evaluate_copilot.py.</div>',
+        unsafe_allow_html=True,
+    )
+
+    summary_path = Path("data") / "evaluation_summary.json"
+    results_path = Path("data") / "evaluation_results.csv"
+
+    if not summary_path.exists() or not results_path.exists():
+        st.warning(
+            "No benchmark files found. Run `python evaluate_copilot.py` from the project root, "
+            "then refresh this view."
+        )
+    else:
+        with open(summary_path, "r", encoding="utf-8") as handle:
+            summary = json.load(handle)
+        results_df = pd.read_csv(results_path)
+        bench = summary.get("performance_benchmarks", {})
+        dist = summary.get("score_distribution", {})
+
+        c1, c2, c3, c4 = st.columns(4)
+        c1.metric("Companies", summary.get("total_companies_evaluated", 0))
+        c2.metric("Scrape success", f"{summary.get('scraping_success_rate_percent', 0)}%")
+        c3.metric("Avg seconds / lead", bench.get("copilot_average_seconds_per_lead", 0))
+        c4.metric("Time saved vs 15 min", f"{bench.get('average_time_reduction_percentage', 0)}%")
+
+        c5, c6, c7, c8 = st.columns(4)
+        c5.metric("High priority", dist.get("high_priority_count", 0))
+        c6.metric("Medium priority", dist.get("medium_priority_count", 0))
+        c7.metric("Low priority", dist.get("low_priority_count", 0))
+        c8.metric("Token skips", summary.get("token_saving_low_priority_skips", 0))
+
+        st.caption(f"Benchmark timestamp: {summary.get('benchmark_timestamp', 'n/a')}")
+        st.dataframe(results_df, use_container_width=True)

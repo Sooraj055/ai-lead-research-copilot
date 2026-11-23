@@ -131,7 +131,7 @@ def analyze_company_crm_fit(
     company_profile: Dict[str, Any],
     additional_research: Optional[str] = None,
     api_key: Optional[str] = None,
-    model_name: str = "gemini-3.8-flash",
+    model_name: str = "gemini-3.5-flash-lite",
 ) -> Dict[str, Any]:
     """
     Analyzes a company profile against SalesFlow CRM capabilities and the Indian SMB ICP.
@@ -140,7 +140,7 @@ def analyze_company_crm_fit(
         company_profile (dict): Structured profile from Stage 2 (extract_company_info).
         additional_research (str, optional): Additional text (job postings, press releases, expansion news).
         api_key (str, optional): Google Gemini API key. Defaults to GEMINI_API_KEY env var.
-        model_name (str): Model identifier. Defaults to 'gemini-3.8-flash'.
+        model_name (str): Model identifier. Defaults to 'gemini-3.5-flash-lite'.
 
     Returns:
         dict: Validated business analysis matching the approved Phase 3 JSON schema.
@@ -253,24 +253,34 @@ Analyze this company and return valid JSON adhering strictly to this schema:
             temperature=0.1,
         )
 
-        # Retry with exponential backoff on transient rate limits (429/RESOURCE_EXHAUSTED)
+        models_to_try = [model_name]
+        for fallback_m in ["gemini-3.8-flash", "gemini-3.5-flash"]:
+            if fallback_m not in models_to_try:
+                models_to_try.append(fallback_m)
+
         response = None
-        max_retries = 3
-        for attempt in range(max_retries):
-            try:
-                response = client.models.generate_content(
-                    model=model_name,
-                    contents=prompt,
-                    config=config,
-                )
+        last_err = None
+        for current_model in models_to_try:
+            for attempt in range(2):
+                try:
+                    response = client.models.generate_content(
+                        model=current_model,
+                        contents=prompt,
+                        config=config,
+                    )
+                    break
+                except Exception as api_err:
+                    last_err = api_err
+                    err_str = str(api_err)
+                    if ("429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "503" in err_str or "rate" in err_str.lower()) and attempt < 1:
+                        time.sleep(2)
+                        continue
+                    break
+            if response is not None:
                 break
-            except Exception as api_err:
-                err_str = str(api_err)
-                if ("429" in err_str or "RESOURCE_EXHAUSTED" in err_str or "rate" in err_str.lower()) and attempt < max_retries - 1:
-                    wait_time = 7 * (attempt + 1)
-                    time.sleep(wait_time)
-                    continue
-                raise api_err
+
+        if response is None:
+            raise last_err or RuntimeError("All model attempts failed")
 
         raw_text = response.text.strip()
         if raw_text.startswith("```"):
@@ -299,5 +309,6 @@ Analyze this company and return valid JSON adhering strictly to this schema:
             company_profile,
             notes=f"Gemini API analysis failed ({type(exc).__name__}: {str(exc)}). Heuristic analysis returned.",
         )
-        fallback["analysis_status"] = "failed"
+        # Keep partial so deterministic scoring still runs on heuristic ICP signals.
+        fallback["analysis_status"] = "partial"
         return fallback

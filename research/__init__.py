@@ -9,6 +9,7 @@ from .analyzer import analyze_company_crm_fit, get_empty_business_analysis
 from .scorer import score_lead
 from .outreach import generate_outreach_drafts, get_empty_outreach_drafts
 from .crm_sync import review_outreach_draft, sync_lead_to_crm
+from .evaluation import categorize_scrape_failure
 
 __all__ = [
     "scrape_website",
@@ -21,4 +22,5 @@ __all__ = [
     "get_empty_outreach_drafts",
     "review_outreach_draft",
     "sync_lead_to_crm",
+    "categorize_scrape_failure",
 ]
